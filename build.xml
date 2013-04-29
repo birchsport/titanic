@@ -29,7 +29,7 @@
           target: train              
          ================================= -->
 	<target name="train" depends="compile" description="Trains the model">
-		<java classname="Train">
+		<java classname="titanic.weka.Train">
 			<classpath>
 				<path refid="project.classpath" />
 				<path location="${build}" />
@@ -41,7 +41,7 @@
           target: predict              
          ================================= -->
 	<target name="predict" depends="compile" description="Creates the prediction">
-		<java classname="Predict">
+		<java classname="titanic.weka.Predict">
 			<classpath>
 				<path refid="project.classpath" />
 				<path location="${build}" />
@@ -53,7 +53,7 @@
           target: verify              
          ================================= -->
 	<target name="verify" depends="compile" description="Verifies the prediction">
-		<java classname="Verify">
+		<java classname="titanic.weka.Verify">
 			<classpath>
 				<path refid="project.classpath" />
 				<path location="${build}" />
