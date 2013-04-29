@@ -16,7 +16,7 @@
 *.gz
 *.iso
 *.rar
-*.jar
+#*.jar
 *.tar
 *.zip
 
