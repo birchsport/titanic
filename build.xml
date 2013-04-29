@@ -1,0 +1,64 @@
+<project name="Titanic" default="compile" basedir=".">
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="lib" location="lib" />
+
+	<path id="project.classpath">
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="init">
+		<tstamp />
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<javac srcdir="${src}" destdir="${build}" classpathref="project.classpath" includeantruntime="false" />
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+	</target>
+
+	<!-- ================================= 
+          target: train              
+         ================================= -->
+	<target name="train" depends="compile" description="Trains the model">
+		<java classname="Train">
+			<classpath>
+				<path refid="project.classpath" />
+				<path location="${build}" />
+			</classpath>
+		</java>
+	</target>
+	
+	<!-- ================================= 
+          target: predict              
+         ================================= -->
+	<target name="predict" depends="compile" description="Creates the prediction">
+		<java classname="Predict">
+			<classpath>
+				<path refid="project.classpath" />
+				<path location="${build}" />
+			</classpath>
+		</java>
+	</target>
+	
+	<!-- ================================= 
+          target: verify              
+         ================================= -->
+	<target name="verify" depends="compile" description="Verifies the prediction">
+		<java classname="Verify">
+			<classpath>
+				<path refid="project.classpath" />
+				<path location="${build}" />
+			</classpath>
+		</java>
+	</target>
+
+</project>
