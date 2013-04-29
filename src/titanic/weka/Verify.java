@@ -1,4 +1,5 @@
 package titanic.weka;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
@@ -10,6 +11,7 @@ import weka.core.Attribute;
 import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
+import weka.core.converters.ArffLoader;
 import weka.core.converters.CSVLoader;
 import weka.core.converters.CSVSaver;
 import weka.core.converters.Loader;
@@ -53,6 +55,27 @@ public class Verify {
 		predictDataSet.deleteStringAttributes();
 
 		/*
+		 * Next we load the training data from our ARFF file
+		 */
+		ArffLoader trainLoader = new ArffLoader();
+		trainLoader.setSource(new File("train.arff"));
+		trainLoader.setRetrieval(Loader.BATCH);
+		Instances trainDataSet = trainLoader.getDataSet();
+
+		/*
+		 * Now we tell the data set which attribute we want to classify, in our
+		 * case, we want to classify the first column: survived
+		 */
+		Attribute trainAttribute = trainDataSet.attribute(0);
+		trainDataSet.setClass(trainAttribute);
+
+		/*
+		 * The RandomForest implementation cannot handle columns of type string,
+		 * so we remove them for now.
+		 */
+		trainDataSet.deleteStringAttributes();
+		
+		/*
 		 * Now we read in the serialized model from disk
 		 */
 		RandomForest forest = (RandomForest) SerializationHelper
@@ -62,7 +85,7 @@ public class Verify {
 		 * Next we will use an Evaluation class to evaluate the performance of
 		 * our Classifier.
 		 */
-		Evaluation evaluation = new Evaluation(predictDataSet);
+		Evaluation evaluation = new Evaluation(trainDataSet);
 		evaluation.evaluateModel(forest, predictDataSet, new Object[] {});
 
 		/*
