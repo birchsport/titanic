@@ -69,6 +69,15 @@ public class Verify {
 		 */
 		Attribute trainAttribute = trainDataSet.attribute(0);
 		trainDataSet.setClass(trainAttribute);
+		
+		Attribute pclassAttribute = trainDataSet.attribute(1);
+		pclassAttribute.setWeight(1.5);
+		
+		Attribute sexAttribute = trainDataSet.attribute(3);
+		sexAttribute.setWeight(2.0);
+		
+		Attribute fareAttribute = trainDataSet.attribute(8);
+		fareAttribute.setWeight(1.5);
 
 		/*
 		 * The RandomForest implementation cannot handle columns of type string,

@@ -3,10 +3,12 @@ package titanic.weka.multi;
 import java.io.File;
 
 import weka.classifiers.trees.BFTree;
+import weka.classifiers.trees.FT;
 import weka.classifiers.trees.J48;
 import weka.classifiers.trees.LMT;
 import weka.classifiers.trees.M5P;
 import weka.classifiers.trees.NBTree;
+import weka.classifiers.trees.REPTree;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
 import weka.core.Instances;
@@ -43,6 +45,15 @@ public class Train {
 		 */
 		Attribute trainAttribute = trainDataSet.attribute(0);
 		trainDataSet.setClass(trainAttribute);
+		
+		Attribute pclassAttribute = trainDataSet.attribute(1);
+		pclassAttribute.setWeight(1.5);
+		
+		Attribute sexAttribute = trainDataSet.attribute(3);
+		sexAttribute.setWeight(2.0);
+		
+		Attribute fareAttribute = trainDataSet.attribute(8);
+		fareAttribute.setWeight(1.5);
 
 		/*
 		 * The RandomForest implementation cannot handle columns of type string,
@@ -75,11 +86,20 @@ public class Train {
 		 LMT lmt = new LMT();
 		 lmt.setDebug(true);
 		 
+		 FT ft = new FT();
+		 ft.setDebug(true);
+		 
+		 REPTree repTree = new REPTree();
+		 repTree.setDebug(true);
+		 repTree.setNumFolds(10);
+		 
 		 multiClassifier.addClassifier(forest);
 		 multiClassifier.addClassifier(bfTree);
 		 multiClassifier.addClassifier(nbTree);
 		 multiClassifier.addClassifier(j48);
 		 multiClassifier.addClassifier(lmt);
+		 multiClassifier.addClassifier(ft);
+		 multiClassifier.addClassifier(repTree);
 
 		/*
 		 * Now we train the classifier
