@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.evaluation.EvaluationUtils;
 import weka.classifiers.trees.RandomForest;
@@ -78,7 +79,7 @@ public class Verify {
 		/*
 		 * Now we read in the serialized model from disk
 		 */
-		RandomForest forest = (RandomForest) SerializationHelper
+		Classifier classifier = (Classifier) SerializationHelper
 				.read("titanic.model");
 
 		/*
@@ -86,12 +87,13 @@ public class Verify {
 		 * our Classifier.
 		 */
 		Evaluation evaluation = new Evaluation(trainDataSet);
-		evaluation.evaluateModel(forest, predictDataSet, new Object[] {});
+		evaluation.evaluateModel(classifier, predictDataSet, new Object[] {});
 
 		/*
 		 * After we evaluate the Classifier, we write out the summary
 		 * information to the screen.
 		 */
+		System.out.println(classifier);
 		System.out.println(evaluation.toSummaryString());
 
 	}

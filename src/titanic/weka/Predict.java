@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
 
+import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
@@ -46,7 +47,7 @@ public class Predict {
 		/*
 		 * Now we read in the serialized model from disk
 		 */
-		RandomForest forest = (RandomForest) SerializationHelper
+		Classifier classifier = (Classifier) SerializationHelper
 				.read("titanic.model");
 
 		/*
@@ -71,7 +72,7 @@ public class Predict {
 		while (testInstances.hasMoreElements()) {
 			Instance instance = (Instance) testInstances.nextElement();
 			Instance instance1 = (Instance) test1Instances.nextElement();
-			double classification = forest.classifyInstance(instance);
+			double classification = classifier.classifyInstance(instance);
 			instance1.setClassValue(classification);
 		}
 

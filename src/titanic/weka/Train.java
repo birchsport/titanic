@@ -1,17 +1,13 @@
 package titanic.weka;
-import java.io.File;
-import java.io.IOException;
-import java.util.Enumeration;
 
-import weka.classifiers.Evaluation;
+import java.io.File;
+
+import weka.classifiers.trees.BFTree;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
-import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
 import weka.core.converters.ArffLoader;
-import weka.core.converters.CSVLoader;
-import weka.core.converters.CSVSaver;
 import weka.core.converters.Loader;
 
 /**
@@ -53,19 +49,19 @@ public class Train {
 		/*
 		 * Create a new Classifier of type RandomForest and configure it.
 		 */
-		RandomForest forest = new RandomForest();
-		forest.setNumTrees(500);
-		forest.setDebug(true);
+		 RandomForest classifier = new RandomForest();
+		 classifier.setNumTrees(500);
+		 classifier.setDebug(true);
 
 		/*
 		 * Now we train the classifier
 		 */
-		forest.buildClassifier(trainDataSet);
+		classifier.buildClassifier(trainDataSet);
 
 		/*
 		 * We are done training the classifier, so now we serialize it to disk
 		 */
-		SerializationHelper.write("titanic.model", forest);
+		SerializationHelper.write("titanic.model", classifier);
 		System.out.println("Saved trained model to titanic.model");
 
 	}
